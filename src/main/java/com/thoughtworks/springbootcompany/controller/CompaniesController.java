@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/companies")
@@ -29,7 +30,14 @@ public class CompaniesController {
         newEmployees.add(new Employees(8,"Lee Yong Bok",20,"male",4000));
         newEmployees.add(new Employees(9,"Kim Seung Min",20,"male",4100));
         newEmployees.add(new Employees(10,"Jung Ji-hoon",39,"male",30000));
-        companiesList.add(new Companies("JYPE",20,newEmployees, 1));
+        companiesList.add(new Companies("JYP Entertainment",20,newEmployees, 1));
+        companiesList.add(new Companies("TheBlackLabel",20,newEmployees, 2));
+        companiesList.add(new Companies("SM Entertainment",20,newEmployees, 3));
+        companiesList.add(new Companies("Pledis",20,newEmployees, 4));
+        companiesList.add(new Companies("YG Entertainment",20,newEmployees, 5));
+        companiesList.add(new Companies("Starship",20,newEmployees, 6));
+        companiesList.add(new Companies("FNC",20,newEmployees, 7));
+
     }
 
     @GetMapping()
@@ -54,6 +62,15 @@ public class CompaniesController {
                 .getEmployees();
     }
 
+
+    @GetMapping(params = {"page", "pageSize"})
+    public List<Companies> getCompaniesByPagination(@RequestParam Integer page, @RequestParam Integer pageSize) {
+        return companiesList
+                .stream()
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+    }
 
 
 }
