@@ -45,6 +45,15 @@ public class CompaniesController {
                 .orElse(null);
     }
 
+    @GetMapping("/{companyId}/employees")
+    public List<Employees> getAllEmployeesByCompany(@PathVariable Integer companyId){
+        return companiesList.stream()
+                .filter(company -> company.getCompanyID().equals(companyId))
+                .findFirst()
+                .orElse(null)
+                .getEmployees();
+    }
+
 
 
 }
