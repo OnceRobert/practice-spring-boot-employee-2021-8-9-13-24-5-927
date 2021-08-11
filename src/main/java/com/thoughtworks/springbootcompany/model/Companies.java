@@ -5,6 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Companies {
+    private String companyName;
+    private Integer employeesNumber;
+    private List<Employees> employees;
+
+    public Companies(String companyName, Integer employeesNumber, List<Employees> employees) {
+        this.companyName = companyName;
+        this.employeesNumber = employeesNumber;
+        this.employees = employees;
+    }
+
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
@@ -27,16 +37,6 @@ public class Companies {
 
     public List<Employees> getEmployees() {
         return employees;
-    }
-
-    private String companyName;
-    private Integer employeesNumber;
-    private List<Employees> employees;
-
-    public Companies(String companyName, Integer employeesNumber, List<Employees> employees) {
-        this.companyName = companyName;
-        this.employeesNumber = employeesNumber;
-        this.employees = employees;
     }
 
 }
