@@ -72,5 +72,14 @@ public class CompaniesController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping
+    public void addCompany(@RequestBody Companies newCompany) {
+        Companies companyToBeAdded = new Companies(
+                newCompany.getCompanyName(),
+                newCompany.getEmployeesNumber(),
+                newCompany.getEmployees(),
+                companiesList.size()+1);
+        companiesList.add(companyToBeAdded);
+    }
 
 }
