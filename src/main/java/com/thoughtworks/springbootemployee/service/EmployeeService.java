@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.Repository.EmployeesRepo;
+import com.thoughtworks.springbootemployee.repository.EmployeesRepo;
 import com.thoughtworks.springbootemployee.model.Employees;
 import org.springframework.stereotype.Service;
 

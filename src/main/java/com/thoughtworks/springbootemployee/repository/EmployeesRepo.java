@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee.Repository;
+package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.model.Employees;
 import org.springframework.stereotype.Repository;
