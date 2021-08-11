@@ -82,4 +82,28 @@ public class CompaniesController {
         companiesList.add(companyToBeAdded);
     }
 
+    @PutMapping(path = "/{companyId}")
+    public Companies updateCompanyInformation(@PathVariable Integer companyId, @RequestBody Companies companyToBeUpdated) {
+        return companiesList
+                .stream()
+                .filter(company -> company.getCompanyID().equals(companyId))
+                .map(company -> updateCompanyInformation(company,companyToBeUpdated))
+                .findFirst()
+                .get();
+    }
+
+    private Companies updateCompanyInformation(Companies company, Companies companyToBeUpdated) {
+
+        if (companyToBeUpdated.getCompanyID()!= null)
+            company.setCompanyID(companyToBeUpdated.getCompanyID());
+        if (companyToBeUpdated.getCompanyName()!=null)
+            company.setCompanyName(companyToBeUpdated.getCompanyName());
+        if (companyToBeUpdated.getEmployees()!=null)
+            company.setEmployees(companyToBeUpdated.getEmployees());
+        if (companyToBeUpdated.getEmployeesNumber()!=null)
+            company.setEmployeesNumber(companyToBeUpdated.getEmployeesNumber());
+        return company;
+    }
+
+
 }
