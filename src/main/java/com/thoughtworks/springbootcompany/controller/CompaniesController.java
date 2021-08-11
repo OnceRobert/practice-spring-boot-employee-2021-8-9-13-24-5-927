@@ -5,10 +5,7 @@ import com.thoughtworks.springbootcompany.model.Companies;
 import com.thoughtworks.springbootcompany.service.CompaniesService;
 import com.thoughtworks.springbootemployee.model.Employees;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +29,20 @@ public class CompaniesController {
         newEmployees.add(new Employees(8,"Lee Yong Bok",20,"male",4000));
         newEmployees.add(new Employees(9,"Kim Seung Min",20,"male",4100));
         newEmployees.add(new Employees(10,"Jung Ji-hoon",39,"male",30000));
-        companiesList.add(new Companies("JYPE",20,newEmployees));
+        companiesList.add(new Companies("JYPE",20,newEmployees, 1));
     }
 
     @GetMapping()
     public List<Companies> getAllCompanies(){
         return companiesList;
+    }
+
+    @GetMapping("/{companyId}")
+    public Companies getCompanyById(@PathVariable Integer companyId){
+        return companiesList.stream()
+                .filter(company -> company.getCompanyID().equals(companyId))
+                .findFirst()
+                .orElse(null);
     }
 
 
