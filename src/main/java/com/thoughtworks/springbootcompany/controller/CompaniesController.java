@@ -106,4 +106,9 @@ public class CompaniesController {
     }
 
 
+    @DeleteMapping(path = "/{companyId}")
+    public void deleteCompany(@PathVariable Integer companyId){
+        companiesList.remove(getCompanyById(companyId));
+    }
+
 }
