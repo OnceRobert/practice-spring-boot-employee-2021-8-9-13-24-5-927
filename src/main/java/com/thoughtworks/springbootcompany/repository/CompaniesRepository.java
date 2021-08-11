@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CompanyRepository {
+public class CompaniesRepository {
     private List<Companies> companies = new ArrayList<>();
 
-    public CompanyRepository(){
+    public CompaniesRepository(){
 
     }
 
