@@ -171,6 +171,19 @@ class SpringBootEmployeeApplicationTests {
                 .andExpect(jsonPath("$.gender").value("male"));
     }
 
+    @Test
+    void should_return_no_employee_when_call_delete_employees_api() throws Exception {
+        //given
+        final Employee employee = new Employee(1,"Momo", 24, "female",9999);
+        Employee savedEmployee = employeesRepo.save(employee);
+
+        //when
+        //then
+        int id = savedEmployee.getId();
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{id}",id).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
 
 
 }
