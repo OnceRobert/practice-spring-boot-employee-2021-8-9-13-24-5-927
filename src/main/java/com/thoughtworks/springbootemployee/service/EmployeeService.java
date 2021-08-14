@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepo;
-import com.thoughtworks.springbootemployee.model.Employees;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,46 +17,46 @@ public class EmployeeService {
 
     public EmployeeService(EmployeesRepo employeesRepo) { this.employeesRepo = employeesRepo; }
 
-    public List<Employees> getEmployeesList(){
+    public List<Employee> getEmployeesList(){
         return employeesRepo.findAll();
     }
 
-    public Employees getById(Integer employeeId){
+    public Employee getById(Integer employeeId){
         return employeesRepo.getOne(employeeId);
     }
 
-    public List<Employees> getByGender(String gender){
+    public List<Employee> getByGender(String gender){
         return employeesRepo.findAll()
                 .stream()
                 .filter(employees -> employees.getGender().equals(gender))
                 .collect(Collectors.toList());
     }
 
-    public List<Employees> getByPagination(Integer index, Integer size){
+    public List<Employee> getByPagination(Integer index, Integer size){
         return employeesRepo.findAll(PageRequest.of(index-1,size)).getContent();
     }
 
-    public void addEmployee(Employees newEmployee){
+    public void addEmployee(Employee newEmployee){
         employeesRepo.save(newEmployee);
     }
 
-    public Employees updateById(Integer employeeId, Employees newEmployeeInfo){
+    public Employee updateById(Integer employeeId, Employee newEmployeeInfo){
         return employeesRepo.save(updateEmployeesInfo(employeesRepo.getOne(employeeId), newEmployeeInfo));
     }
 
 
-    private Employees updateEmployeesInfo(Employees employees, Employees newEmployeeInfo) {
+    private Employee updateEmployeesInfo(Employee employee, Employee newEmployeeInfo) {
         if (newEmployeeInfo.getId() != null)
-            employees.setId(newEmployeeInfo.getId());
+            employee.setId(newEmployeeInfo.getId());
         if (newEmployeeInfo.getName() != null)
-            employees.setName(newEmployeeInfo.getName());
+            employee.setName(newEmployeeInfo.getName());
         if (newEmployeeInfo.getAge() != null)
-            employees.setAge(newEmployeeInfo.getAge());
+            employee.setAge(newEmployeeInfo.getAge());
         if (newEmployeeInfo.getGender() != null)
-            employees.setGender(newEmployeeInfo.getGender());
+            employee.setGender(newEmployeeInfo.getGender());
         if (newEmployeeInfo.getSalary() != null)
-            employees.setSalary(newEmployeeInfo.getSalary());
-        return employees;
+            employee.setSalary(newEmployeeInfo.getSalary());
+        return employee;
     }
 
     public void deleteById(Integer employeeId){

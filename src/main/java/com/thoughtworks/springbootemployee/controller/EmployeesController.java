@@ -1,11 +1,10 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.model.Employees;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,7 +13,6 @@ public class EmployeesController {
 
     @Autowired
     private EmployeeService employeeService;
-    private static List<Employees> employeesList = new ArrayList<>();
 
     public EmployeesController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -24,34 +22,33 @@ public class EmployeesController {
 
 
     @GetMapping()
-    public List<Employees> getAllEmployees() {
+    public List<Employee> getAllEmployees() {
         return employeeService.getEmployeesList();
     }
 
     @GetMapping("/{employeeId}")
-    public Employees getEmployeeById(@PathVariable Integer employeeId) {
+    public Employee getEmployeeById(@PathVariable Integer employeeId) {
         return employeeService.getById(employeeId);
     }
 
     @GetMapping(params = {"gender"})
-    public List<Employees> getEmployeesByGender(@RequestParam("gender") String givenGender) {
+    public List<Employee> getEmployeesByGender(@RequestParam("gender") String givenGender) {
         return employeeService.getByGender(givenGender);
     }
 
     @GetMapping(params = {"index", "size"})
-    public List<Employees> getEmployeesByPagination(@RequestParam int index, @RequestParam int size) {
+    public List<Employee> getEmployeesByPagination(@RequestParam int index, @RequestParam int size) {
         return employeeService.getByPagination(index,size);
     }
 
     @PostMapping
-    public void addEmployee(@RequestBody Employees newEmployee) {
+    public void addEmployee(@RequestBody Employee newEmployee) {
         employeeService.addEmployee(newEmployee);
-
     }
 
     @PutMapping(path = "/{employeeId}")
-    public Employees updateEmployee(@PathVariable Integer employeeId, @RequestBody Employees employeesToBeUpdated) {
-        return employeeService.updateById(employeeId, employeesToBeUpdated);
+    public Employee updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee employeeToBeUpdated) {
+        return employeeService.updateById(employeeId, employeeToBeUpdated);
     }
 
     @DeleteMapping(path = "/{employeeId}")
