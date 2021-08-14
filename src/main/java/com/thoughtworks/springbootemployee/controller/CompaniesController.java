@@ -1,8 +1,8 @@
 package com.thoughtworks.springbootemployee.controller;
 
 
-import com.thoughtworks.springbootemployee.model.Companies;
-import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.entity.Companies;
+import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.service.CompaniesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

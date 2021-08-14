@@ -1,6 +1,8 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
+import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ public class EmployeesController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
     public EmployeesController(EmployeeService employeeService) {
         this.employeeService = employeeService;
 //        employeesList.add(new Employees(1, "Angelo", 23, "male", 1000));
@@ -28,8 +33,8 @@ public class EmployeesController {
     }
 
     @GetMapping("/{employeeId}")
-    public Employee getEmployeeById(@PathVariable Integer employeeId) {
-        return employeeService.getById(employeeId);
+    public EmployeeResponse getEmployeeById(@PathVariable Integer employeeId) {
+        return employeeMapper.toResponse(employeeService.getById(employeeId));
     }
 
     @GetMapping(params = {"gender"})
