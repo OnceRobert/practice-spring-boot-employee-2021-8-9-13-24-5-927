@@ -28,8 +28,8 @@ public class EmployeesController {
 
 
     @GetMapping()
-    public List<Employee> getAllEmployees() {
-        return employeeService.getEmployeesList();
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeMapper.toResponse(employeeService.getEmployeesList());
     }
 
     @GetMapping("/{employeeId}")
