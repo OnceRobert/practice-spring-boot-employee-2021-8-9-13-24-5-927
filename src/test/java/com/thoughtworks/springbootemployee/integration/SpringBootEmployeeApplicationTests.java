@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -102,6 +103,48 @@ class SpringBootEmployeeApplicationTests {
                 .andExpect(jsonPath("$[1].gender").value("female"))
                 .andExpect(jsonPath("$[1].salary").value(9999))
                 .andExpect(jsonPath("$[2].salary").doesNotExist());
+    }
+
+    @Test
+    void should_return_all_male_employees_when_call_get_employees_given_gender_equals_male() throws Exception
+    {
+        //given
+        final Employee employee = new Employee(1,"JYP Oppar", 24, "male",9999);
+        final Employee secondemployee = new Employee(2,"Ralston", 24, "male",9999);
+        final Employee thirdemployee = new Employee(3,"Sana", 24, "female",9999);
+        employeesRepo.save(employee);
+        employeesRepo.save(secondemployee);
+        employeesRepo.save(thirdemployee);
+
+        //when
+        //then
+        String gender = "male";
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees?gender={gender}",gender))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[1].gender").value("male"))
+                .andExpect(jsonPath("$[2].salary").doesNotExist());
+    }
+
+    @Test
+    void should_create_employee_when_call_create_employee_api() throws Exception
+    {
+        //given
+        String employee = "{\n" +
+                "        \"id\": 1,\n" +
+                "        \"name\": \"Park Jinyoung\",\n" +
+                "        \"age\": 49,\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"salary\": 2011233,\n" +
+                "        \"companyId\": 1\n" +
+                "    }";
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(employee))
+                .andExpect(status().isCreated());
+
     }
 
 }
