@@ -33,6 +33,35 @@ public class EmployeeService {
     }
 
     public List<Employees> getByPagination(Integer index, Integer size){
-        employeesRepo.findAll(PageRequest.of(index-1,size)).getContent();
+        return employeesRepo.findAll(PageRequest.of(index-1,size)).getContent();
     }
+
+    public void addEmployee(Employees newEmployee){
+        employeesRepo.save(newEmployee);
+    }
+
+    public Employees updateById(Integer employeeId, Employees newEmployeeInfo){
+        return employeesRepo.save(updateEmployeesInfo(employeesRepo.getOne(employeeId), newEmployeeInfo));
+    }
+
+
+    private Employees updateEmployeesInfo(Employees employees, Employees newEmployeeInfo) {
+        if (newEmployeeInfo.getId() != null)
+            employees.setId(newEmployeeInfo.getId());
+        if (newEmployeeInfo.getName() != null)
+            employees.setName(newEmployeeInfo.getName());
+        if (newEmployeeInfo.getAge() != null)
+            employees.setAge(newEmployeeInfo.getAge());
+        if (newEmployeeInfo.getGender() != null)
+            employees.setGender(newEmployeeInfo.getGender());
+        if (newEmployeeInfo.getSalary() != null)
+            employees.setSalary(newEmployeeInfo.getSalary());
+        return employees;
+    }
+
+    public void deleteById(Integer employeeId){
+        employeesRepo.deleteById(employeeId);
+    }
+
+
 }

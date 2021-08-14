@@ -50,30 +50,17 @@ public class EmployeesController {
                 newEmployee.getAge(),
                 newEmployee.getGender(),
                 newEmployee.getSalary());
-        employeesList.add(employeesToBeAdded);
+        employeeService.addEmployee(employeesToBeAdded);
 
     }
 
     @PutMapping(path = "/{employeeId}")
     public Employees updateEmployee(@PathVariable Integer employeeId, @RequestBody Employees employeesToBeUpdated) {
-        return employeesList.stream().filter(employees1 -> employees1.getId().equals(employeeId))
-                .map(employees1 -> updateEmployeesInfo(employees1, employeesToBeUpdated))
-                .findFirst().get();
-    }
-
-    private Employees updateEmployeesInfo(Employees employees1, Employees employeesToBeUpdated) {
-
-        if (employeesToBeUpdated != null) {
-            employees1.setGender(employeesToBeUpdated.getGender());
-            employees1.setAge(employeesToBeUpdated.getAge());
-            employees1.setName(employeesToBeUpdated.getName());
-            employees1.setSalary(employeesToBeUpdated.getSalary());
-        }
-        return employees1;
+        return employeeService.updateById(employeeId, employeesToBeUpdated);
     }
 
     @DeleteMapping(path = "/{employeeId}")
     public void deleteEmployee(@PathVariable Integer employeeId){
-        employeesList.remove(getEmployeeById(employeeId));
+        employeeService.deleteById(employeeId);
     }
 }
