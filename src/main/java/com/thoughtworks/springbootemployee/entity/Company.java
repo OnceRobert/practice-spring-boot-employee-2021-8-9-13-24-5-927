@@ -2,21 +2,22 @@ package com.thoughtworks.springbootemployee.entity;
 
 import java.util.List;
 
-public class Companies {
+public class Company {
     private String companyName;
     private Integer employeesNumber;
     private List<Employee> employees;
 
 
-
     private Integer companyID;
 
-    public Companies(String companyName, Integer employeesNumber, List<Employee> employees, Integer companyID) {
+    public Company(String companyName, Integer employeesNumber, List<Employee> employees, Integer companyID) {
         this.companyName = companyName;
         this.employeesNumber = employeesNumber;
         this.employees = employees;
         this.companyID = companyID;
     }
+
+    public Company(){}
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;

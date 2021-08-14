@@ -1,8 +1,11 @@
 package com.thoughtworks.springbootemployee.controller;
 
 
-import com.thoughtworks.springbootemployee.entity.Companies;
+import com.thoughtworks.springbootemployee.dto.CompanyResponse;
+import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
+import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
+import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
 import com.thoughtworks.springbootemployee.service.CompaniesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,56 +19,36 @@ import java.util.stream.Collectors;
 public class CompaniesController {
     @Autowired
     private CompaniesService companiesService;
-    private static List<Companies> companiesList = new ArrayList<>();
+    private static List<Company> companyList = new ArrayList<>();
+
+    @Autowired
+    private CompaniesRepository companiesRepository;
+
+    @Autowired
+    private CompanyMapper companyMapper;
 
     public CompaniesController(CompaniesService companiesService){
-        List<Employee> newEmployees = new ArrayList<>();
-        newEmployees.add(new Employee(1,"Park Jinyoung",49,"male",40000));
-        newEmployees.add(new Employee(2,"Hirai Momo",24,"female",4200));
-        newEmployees.add(new Employee(3,"Myoui Mina",24,"female",4000));
-        newEmployees.add(new Employee(4,"Park Jisoo",24,"female",4700));
-        newEmployees.add(new Employee(5,"Im Nayeon",25,"female",4600));
-        newEmployees.add(new Employee(6,"Hwang Yeji",21,"female",3000));
-        newEmployees.add(new Employee(7,"Lee Chaeryeong",20,"female",3400));
-        newEmployees.add(new Employee(8,"Lee Yong Bok",20,"male",4000));
-        newEmployees.add(new Employee(9,"Kim Seung Min",20,"male",4100));
-        newEmployees.add(new Employee(10,"Jung Ji-hoon",39,"male",30000));
-        companiesList.add(new Companies("JYP Entertainment",20,newEmployees, 1));
-        companiesList.add(new Companies("TheBlackLabel",20,newEmployees, 2));
-        companiesList.add(new Companies("SM Entertainment",20,newEmployees, 3));
-        companiesList.add(new Companies("Pledis",20,newEmployees, 4));
-        companiesList.add(new Companies("YG Entertainment",20,newEmployees, 5));
-        companiesList.add(new Companies("Starship",20,newEmployees, 6));
-        companiesList.add(new Companies("FNC",20,newEmployees, 7));
-
     }
 
     @GetMapping()
-    public List<Companies> getAllCompanies(){
-        return companiesList;
+    public List<CompanyResponse> getAllCompanies(){
+        return companyMapper.toResponse(companiesService.getCompaniesList());
     }
 
     @GetMapping("/{companyId}")
-    public Companies getCompanyById(@PathVariable Integer companyId){
-        return companiesList.stream()
-                .filter(company -> company.getCompanyID().equals(companyId))
-                .findFirst()
-                .orElse(null);
+    public CompanyResponse getCompanyById(@PathVariable Integer companyId){
+        return companyMapper.toResponse(companiesService.getById(companyId));
     }
 
     @GetMapping("/{companyId}/employees")
     public List<Employee> getAllEmployeesByCompany(@PathVariable Integer companyId){
-        return companiesList.stream()
-                .filter(company -> company.getCompanyID().equals(companyId))
-                .findFirst()
-                .orElse(null)
-                .getEmployees();
+        return companiesService.getById(companyId).getEmployees();
     }
 
 
     @GetMapping(params = {"page", "pageSize"})
-    public List<Companies> getCompaniesByPagination(@RequestParam Integer page, @RequestParam Integer pageSize) {
-        return companiesList
+    public List<Company> getCompaniesByPagination(@RequestParam Integer page, @RequestParam Integer pageSize) {
+        return companyList
                 .stream()
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
@@ -73,18 +56,18 @@ public class CompaniesController {
     }
 
     @PostMapping
-    public void addCompany(@RequestBody Companies newCompany) {
-        Companies companyToBeAdded = new Companies(
+    public void addCompany(@RequestBody Company newCompany) {
+        Company companyToBeAdded = new Company(
                 newCompany.getCompanyName(),
                 newCompany.getEmployeesNumber(),
                 newCompany.getEmployees(),
-                companiesList.size()+1);
-        companiesList.add(companyToBeAdded);
+                companyList.size()+1);
+        companyList.add(companyToBeAdded);
     }
 
     @PutMapping(path = "/{companyId}")
-    public Companies updateCompanyInformation(@PathVariable Integer companyId, @RequestBody Companies companyToBeUpdated) {
-        return companiesList
+    public Company updateCompanyInformation(@PathVariable Integer companyId, @RequestBody Company companyToBeUpdated) {
+        return companyList
                 .stream()
                 .filter(company -> company.getCompanyID().equals(companyId))
                 .map(company -> updateCompanyInformation(company,companyToBeUpdated))
@@ -92,7 +75,7 @@ public class CompaniesController {
                 .get();
     }
 
-    private Companies updateCompanyInformation(Companies company, Companies companyToBeUpdated) {
+    private Company updateCompanyInformation(Company company, Company companyToBeUpdated) {
 
         if (companyToBeUpdated.getCompanyID()!= null)
             company.setCompanyID(companyToBeUpdated.getCompanyID());
@@ -108,6 +91,6 @@ public class CompaniesController {
 
     @DeleteMapping(path = "/{companyId}")
     public void deleteCompany(@PathVariable Integer companyId){
-        companiesList.remove(getCompanyById(companyId));
+        companyList.remove(getCompanyById(companyId));
     }
 }
