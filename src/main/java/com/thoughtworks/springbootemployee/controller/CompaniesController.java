@@ -2,9 +2,11 @@ package com.thoughtworks.springbootemployee.controller;
 
 
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
 import com.thoughtworks.springbootemployee.service.CompaniesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class CompaniesController {
     @Autowired
     private CompanyMapper companyMapper;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
     public CompaniesController(CompaniesService companiesService){
     }
 
@@ -41,8 +46,8 @@ public class CompaniesController {
     }
 
     @GetMapping("/{companyId}/employees")
-    public List<Employee> getAllEmployeesByCompany(@PathVariable Integer companyId){
-        return companiesService.getById(companyId).getEmployees();
+    public List<EmployeeResponse> getAllEmployeesByCompany(@PathVariable Integer companyId){
+        return employeeMapper.toResponse(companiesService.getById(companyId).getEmployees());
     }
 
 
