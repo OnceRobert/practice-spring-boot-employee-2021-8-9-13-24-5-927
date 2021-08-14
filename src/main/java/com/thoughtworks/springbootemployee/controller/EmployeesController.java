@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -18,8 +17,9 @@ public class EmployeesController {
     private static List<Employees> employeesList = new ArrayList<>();
 
     public EmployeesController(EmployeeService employeeService) {
-        employeesList.add(new Employees(1, "Angelo", 23, "male", 1000));
-        employeesList.add(new Employees(2, "Angela", 26, "female", 900));
+        this.employeeService = employeeService;
+//        employeesList.add(new Employees(1, "Angelo", 23, "male", 1000));
+//        employeesList.add(new Employees(2, "Angela", 26, "female", 900));
     }
 
 
@@ -45,12 +45,7 @@ public class EmployeesController {
 
     @PostMapping
     public void addEmployee(@RequestBody Employees newEmployee) {
-        Employees employeesToBeAdded = new Employees(employeesList.size() + 1,
-                newEmployee.getName(),
-                newEmployee.getAge(),
-                newEmployee.getGender(),
-                newEmployee.getSalary());
-        employeeService.addEmployee(employeesToBeAdded);
+        employeeService.addEmployee(newEmployee);
 
     }
 

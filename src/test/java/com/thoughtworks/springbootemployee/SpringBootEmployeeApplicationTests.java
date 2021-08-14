@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 
 @SpringBootTest
 class SpringBootEmployeeApplicationTests {
@@ -24,7 +25,7 @@ class SpringBootEmployeeApplicationTests {
     private EmployeeService employeeService;
 
     @Test
-    public void shoul_return_all_employess_when_getallemployees_given_all_employess() {
+    public void should_return_all_employess_when_getallemployees_given_all_employess() {
         //given
         List<Employees> employeesList = new ArrayList<>();
 
@@ -32,7 +33,7 @@ class SpringBootEmployeeApplicationTests {
         employeesList.add(new Employees(2, "Angela", 26, "female", 900));
 
         //when
-        given(employeesRepo.getAllEmployees()).willReturn(employeesList);
+        given(employeesRepo.findAll()).willReturn(employeesList);
         List<Employees> actualEmployess = employeeService.getEmployeesList();
 
         assertEquals(employeesList.size(), actualEmployess.size());
