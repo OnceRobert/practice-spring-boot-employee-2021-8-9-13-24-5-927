@@ -37,8 +37,8 @@ public class EmployeeService {
         return employeesRepo.findAll(PageRequest.of(index-1,size)).getContent();
     }
 
-    public void addEmployee(Employee newEmployee){
-        employeesRepo.save(newEmployee);
+    public Employee addEmployee(Employee newEmployee){
+        return employeesRepo.save(newEmployee);
     }
 
     public Employee updateById(Integer employeeId, Employee newEmployeeInfo){

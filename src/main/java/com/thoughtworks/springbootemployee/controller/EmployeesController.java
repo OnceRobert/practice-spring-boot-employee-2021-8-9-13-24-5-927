@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.EmployeeRequest;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
@@ -43,14 +44,14 @@ public class EmployeesController {
     }
 
     @GetMapping(params = {"index", "size"})
-    public List<Employee> getEmployeesByPagination(@RequestParam int index, @RequestParam int size) {
-        return employeeService.getByPagination(index,size);
+    public List<EmployeeResponse> getEmployeesByPagination(@RequestParam int index, @RequestParam int size) {
+        return employeeMapper.toResponse(employeeService.getByPagination(index,size));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void addEmployee(@RequestBody Employee newEmployee) {
-        employeeService.addEmployee(newEmployee);
+    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest newEmployee) {
+        return employeeMapper.toResponse(employeeService.addEmployee(employeeMapper.toEntity(newEmployee)));
     }
 
     @PutMapping(path = "/{employeeId}")
