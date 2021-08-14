@@ -46,7 +46,6 @@ class SpringBootEmployeeApplicationTests {
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").value("Momo"))
                 .andExpect(jsonPath("$[0].age").value(24))
                 .andExpect(jsonPath("$[0].gender").value("female"))
@@ -64,7 +63,6 @@ class SpringBootEmployeeApplicationTests {
         int id = savedEmployee.getId();
         mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}",id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Momo"))
                 .andExpect(jsonPath("$.age").value(24))
                 .andExpect(jsonPath("$.gender").value("female"))
@@ -87,12 +85,10 @@ class SpringBootEmployeeApplicationTests {
         int index = 1 ,size = 2;
         mockMvc.perform(MockMvcRequestBuilders.get("/employees?index={index}&size={size}",index,size))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").value("Momo"))
                 .andExpect(jsonPath("$[0].age").value(24))
                 .andExpect(jsonPath("$[0].gender").value("female"))
                 .andExpect(jsonPath("$[0].salary").value(9999))
-                .andExpect(jsonPath("$[1].id").isNumber())
                 .andExpect(jsonPath("$[1].name").value("Mina"))
                 .andExpect(jsonPath("$[1].age").value(24))
                 .andExpect(jsonPath("$[1].gender").value("female"))
