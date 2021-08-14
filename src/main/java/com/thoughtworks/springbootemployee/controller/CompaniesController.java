@@ -1,8 +1,8 @@
-package com.thoughtworks.springbootcompany.controller;
+package com.thoughtworks.springbootemployee.controller;
 
 
-import com.thoughtworks.springbootcompany.model.Companies;
-import com.thoughtworks.springbootcompany.service.CompaniesService;
+import com.thoughtworks.springbootemployee.model.Companies;
+import com.thoughtworks.springbootemployee.service.CompaniesService;
 import com.thoughtworks.springbootemployee.model.Employees;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -110,5 +110,4 @@ public class CompaniesController {
     public void deleteCompany(@PathVariable Integer companyId){
         companiesList.remove(getCompanyById(companyId));
     }
-
 }
