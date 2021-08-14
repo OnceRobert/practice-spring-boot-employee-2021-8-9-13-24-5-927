@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee;
 
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepo;
-import com.thoughtworks.springbootemployee.model.Employees;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,18 +27,17 @@ class SpringBootEmployeeApplicationTests {
     @Test
     public void should_return_all_employess_when_getallemployees_given_all_employess() {
         //given
-        List<Employees> employeesList = new ArrayList<>();
+        List<Employee> employeeList = new ArrayList<>();
 
-        employeesList.add(new Employees(1, "Angelo", 23, "male", 1000));
-        employeesList.add(new Employees(2, "Angela", 26, "female", 900));
+        employeeList.add(new Employee(1, "Angelo", 23, "male", 1000));
+        employeeList.add(new Employee(2, "Angela", 26, "female", 900));
 
         //when
-        given(employeesRepo.findAll()).willReturn(employeesList);
-        List<Employees> actualEmployess = employeeService.getEmployeesList();
+        given(employeesRepo.findAll()).willReturn(employeeList);
+        List<Employee> actualEmployess = employeeService.getEmployeesList();
 
-        assertEquals(employeesList.size(), actualEmployess.size());
-        assertEquals(employeesList, actualEmployess);
-
+        assertEquals(employeeList.size(), actualEmployess.size());
+        assertEquals(employeeList, actualEmployess);
     }
 
 
