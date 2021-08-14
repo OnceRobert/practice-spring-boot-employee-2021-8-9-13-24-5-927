@@ -22,7 +22,8 @@ public class EmployeeService {
     }
 
     public Employee getById(Integer employeeId){
-        return employeesRepo.getOne(employeeId);
+        return employeesRepo.findById(employeeId)
+                .orElse(null);
     }
 
     public List<Employee> getByGender(String gender){

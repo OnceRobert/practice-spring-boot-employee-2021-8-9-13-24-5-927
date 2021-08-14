@@ -58,5 +58,22 @@ class SpringBootEmployeeApplicationTests {
                 .andExpect(jsonPath("$[1].name").value("Mina"));
     }
 
+    @Test
+    void should_return_specific_employee_when_call_get_employee_api_given_employee_id() throws Exception {
+        final Employee employee = new Employee(1,"Momo", 24, "female",9999);
+        final Employee savedEmployee = employeesRepo.save(employee);
+
+        //when
+        //then
+        int id = savedEmployee.getId();
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}",id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Momo"))
+                .andExpect(jsonPath("$.age").value(24))
+                .andExpect(jsonPath("$.gender").value("female"))
+                .andExpect(jsonPath("$.salary").value(9999));
+    }
+
 
 }
