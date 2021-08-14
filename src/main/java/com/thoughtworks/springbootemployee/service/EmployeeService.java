@@ -13,11 +13,13 @@ public class EmployeeService {
     @Resource
     private EmployeesRepo employeesRepo;
 
-    public EmployeeService(EmployeesRepo employeesRepo) {
-        this.employeesRepo = employeesRepo;
+    private EmployeesService(){
+
     }
 
+    public EmployeeService(EmployeesRepo employeesRepo) { this.employeesRepo = employeesRepo; }
+
     public List<Employees> getEmployeesList(){
-        return employeesRepo.getAllEmployees();
+        return employeesRepo;
     }
 }

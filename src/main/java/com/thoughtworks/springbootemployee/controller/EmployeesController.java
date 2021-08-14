@@ -28,8 +28,6 @@ public class EmployeesController {
         return employeeService.getEmployeesList();
     }
 
-
-
     @GetMapping("/{employeeId}")
     public Employees getEmployeeById(@PathVariable Integer employeeId) {
         return employeesList.stream()
